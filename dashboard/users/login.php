@@ -29,10 +29,10 @@ if (isset($_POST['login_user'])) {
                 header("Location: ../../front/index.php"); 
                 exit;
             } else {
-                $msg = "<div class='alert alert-danger text-center'>Incorrect password</div>";
+                $msg = "<div class='alert alert-success text-center mt-3' id='successMsg'>Incorrect password</div>";
             }
         } else {
-            $msg = "<div class='alert alert-danger text-center'>User not found</div>";
+            $msg = "<div class='alert alert-success text-center mt-3' id='successMsg'>User not found</div>";
         }
     }
 }
@@ -68,5 +68,17 @@ if (isset($_POST['login_user'])) {
       </div>
     </form>
   </div>
+
+
+  <script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

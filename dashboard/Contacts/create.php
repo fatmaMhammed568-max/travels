@@ -19,7 +19,8 @@ if (isset($_POST['submit_user'])) {
                 VALUES ('$name', '$email', '$message')";
 
         if (mysqli_query($conn, $sql)) {
-            echo "<div class='alert alert-success text-center mt-3'> User added successfully!</div>";
+           echo "<div class='alert alert-success text-center mt-3' id='successMsg'>User added successfully!</div>";
+
         } else {
             echo "<div class='alert alert-danger text-center mt-3'> Database error: " . mysqli_error($conn) . "</div>";
         }
@@ -33,29 +34,42 @@ mysqli_close($conn);
 <head>
 <meta charset="UTF-8">
 <title>Add Contact</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/travels/front/style.css" />
 </head>
 <body>
     
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold text-primary" href="/travels/front/index.php">Travels Toma</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="/travels/front/index.php">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/travels/front/packages.php">Packages</a></li>
-          <li class="nav-item"><a class="nav-link" href="/travels/front/hotels.php">Hotels</a></li>
-           <li class="nav-item"><a class="nav-link" href="/travels/front/destinations.php">Destinations</a></li>
-          <li class="nav-item"><a class="nav-link" href="/travels/dashboard/Contacts/create.php">Contact</a></li>
-        </ul>
-        <a href="/travels/dashboard/users/logout.php"class="btn btn-primary px-4">Logout</a>
-      </div>
+  <nav class="navbar navbar-expand-lg main-navbar fixed-top">
+  <div class="container">
+
+    <a class="navbar-brand fw-bold" href="index.php">
+      <i class="fa-solid fa-plane-departure me-1"></i> Travels Toma
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="packages.php">Packages</a></li>
+        <li class="nav-item"><a class="nav-link" href="hotels.php">Hotels</a></li>
+        <li class="nav-item"><a class="nav-link" href="destinations.php">Destinations</a></li>
+         <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.php">About </a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.php">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/dashboard/Contacts/create.php">Contact</a></li>
+      </ul>
+      <a href="/travels/dashboard/users/logout.php" class="btn btn-primary rounded-pill px-4">Logout</a>
+
     </div>
-  </nav>
+  </div>
+</nav>
+
 
 
   <section class="hero d-flex align-items-center justify-content-center text-center">
@@ -74,7 +88,8 @@ mysqli_close($conn);
   </section>
 
 <div class="container mt-5">
-    <h2 class="text-center text-primary mb-4">Add New Contact</h2>
+  <h2 class="text-center mb-5 fw-bold text-primary" style="color:#0d6efd !important; text-align:center;">Add New Contact</h2>
+  
 
     <div class="card shadow mx-auto" style="max-width: 600px;">
         <div class="card-body">
@@ -104,5 +119,16 @@ mysqli_close($conn);
     <p class="mb-0">&copy; 2025 Travels Toma | All Rights Reserved</p>
   </footer>
   
+  <script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
+
 </body>
 </html>

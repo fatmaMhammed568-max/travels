@@ -50,7 +50,9 @@ if (isset($_POST['submit_user'])) {
             WHERE id=$id";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<div class='alert alert-success text-center'> Data updated successfully</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'> Data updated successfully</div>";
+
+        
     } else {
         echo "<div class='alert alert-danger text-center'> Update failed</div>";
     }
@@ -97,5 +99,16 @@ mysqli_close($conn);
             </div>
         </div>
     </div>
+    <script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
+
 </body>
 </html>

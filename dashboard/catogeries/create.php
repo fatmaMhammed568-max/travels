@@ -13,7 +13,8 @@ if (isset($_POST['submit_user'])) {
       
         $file_name = basename($_FILES['file']['name']);
         $tmp_name = $_FILES['file']['tmp_name'];
-        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+        $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+       
 
         $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
         if (!in_array($ext, $allowed)) {
@@ -37,7 +38,9 @@ if (isset($_POST['submit_user'])) {
                         VALUES ('$title', '$new_name', '$description')";
 
                 if (mysqli_query($conn, $sql)) {
-                    echo "<div class='alert alert-success text-center'> Data saved successfully.</div>";
+
+                    echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Data saved successfully.</div>";
+
                 } else {
                     echo "<div class='alert alert-danger text-center'> Database insert error: " . mysqli_error($conn) . "</div>";
                 }
@@ -85,6 +88,16 @@ mysqli_close($conn);
         </div>
     </div>
     
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 
 </body>
 </html>

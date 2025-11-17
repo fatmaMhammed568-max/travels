@@ -6,10 +6,8 @@ $destination = $_GET['destination'] ?? '';
 $date = $_GET['date'] ?? ''; 
 $people = $_GET['people'] ?? '';
 
-
 if ($destination && $date && $people) {
 
-   
     $query = "SELECT * FROM packegs 
               WHERE destination LIKE '%$destination%'";
 
@@ -17,7 +15,7 @@ if ($destination && $date && $people) {
 
     if (mysqli_num_rows($result) > 0) {
         echo "<div class='container mt-5'>
-                <h3 class='mb-4 text-center text-success'>نتائج البحث:</h3>
+                <h3 class='mb-4 text-center text-success'>Search Results:</h3>
                 <div class='row g-4'>";
 
         while ($row = mysqli_fetch_assoc($result)) {
@@ -27,12 +25,12 @@ if ($destination && $date && $people) {
                 <img src='{$row['imgurl']}' class='card-img-top' alt='{$row['name_packge']}' style='height:220px; object-fit:cover;'>
                 <div class='card-body'>
                   <h5 class='card-title text-primary'>{$row['name_packge']}</h5>
-                  <p class='card-text'><strong>الوجهة:</strong> {$row['destination']}</p>
-                  <p class='card-text'><strong>نوع الإقامة:</strong> {$row['accommodation_type']}</p>
-                  <p class='card-text'><strong>وسائل النقل:</strong> {$row['Transportations']}</p>
-                  <p class='card-text'><strong>الفترة:</strong> {$row['periods']}</p>
-                  <p class='card-text'><strong>السعر لليلة:</strong> {$row['price_night']} جنيه</p>
-                  <a href='bookings.php?packag_id={$row['id']}' class='btn btn-primary w-100'>احجز الآن</a>
+                  <p class='card-text'><strong>Destination:</strong> {$row['destination']}</p>
+                  <p class='card-text'><strong>Accommodation Type:</strong> {$row['accommodation_type']}</p>
+                  <p class='card-text'><strong>Transportations:</strong> {$row['Transportations']}</p>
+                  <p class='card-text'><strong>Duration:</strong> {$row['periods']}</p>
+                  <p class='card-text'><strong>Price per Night:</strong> {$row['price_night']} EGP</p>
+                  <a href='bookings.php?packag_id={$row['id']}' class='btn btn-primary w-100'>Book Now</a>
                 </div>
               </div>
             </div>";
@@ -40,10 +38,10 @@ if ($destination && $date && $people) {
 
         echo "</div></div>";
     } else {
-        echo "<div class='alert alert-warning text-center mt-5'> لا توجد نتائج مطابقة لبحثك.</div>";
+        echo "<div class='alert alert-warning text-center mt-5'>No results found for your search.</div>";
     }
 
 } else {
-    echo "<div class='alert alert-danger text-center mt-5'>يرجى إدخال جميع البيانات المطلوبة للبحث.</div>";
+    echo "<div class='alert alert-danger text-center mt-5'>Please enter all required search fields.</div>";
 }
 ?>

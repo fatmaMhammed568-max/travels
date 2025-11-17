@@ -16,7 +16,7 @@ if ($id) {
     }
 }
 
-// جلب الفئات الموجودة
+
 $categories = mysqli_query($conn, "SELECT * FROM catogries");
 
 if (isset($_POST['submit_hotel'])) {
@@ -27,7 +27,6 @@ if (isset($_POST['submit_hotel'])) {
     $prisenightday = filterInputs($_POST['prisenightday']);
     $catogry_id = (int)$_POST['catogry_id'];
 
-    // تحقق من أن الفئة موجودة
     $check_cat = mysqli_query($conn, "SELECT id FROM catogries WHERE id=$catogry_id");
     if (mysqli_num_rows($check_cat) === 0) {
         $error_msg = "Selected category does not exist!";
@@ -49,11 +48,13 @@ if (isset($_POST['submit_hotel'])) {
             WHERE id=$id";
 
         if (mysqli_query($conn, $sql)) {
-            $success_msg = "Hotel updated successfully!";
-        } else {
-            $error_msg = "Error: " . mysqli_error($conn);
-        }
+              echo "<div class='alert alert-success text-center mt-3' id='successMsg'> Data updated successfully</div>";
+
+        
+    } else {
+        echo "<div class='alert alert-danger text-center'> Update failed</div>";
     }
+}
 }
 ?>
 
@@ -125,6 +126,16 @@ if (isset($_POST['submit_hotel'])) {
         </form>
     </div>
 </div>
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>
 

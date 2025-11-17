@@ -7,9 +7,9 @@ include_once('../../layouts/navbar.php');
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
     if (mysqli_query($conn, "DELETE FROM users WHERE id=$id")) {
-        echo "<div class='alert alert-success text-center'>User deleted successfully.</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>User deleted successfully.</div>";
     } else {
-        echo "<div class='alert alert-danger text-center'>Failed to delete user.</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Failed to delete user.</div>";
     }
 }
 
@@ -97,6 +97,16 @@ h2 { text-align:center; margin-top:40px; color:#0d6efd; font-weight:600; }
         </table>
     </div>
 </div>
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>
 

@@ -13,7 +13,6 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// جلب الفنادق مع أسماء الفئات
 $sql = "SELECT h.*, c.title AS category_name 
         FROM hotel h 
         LEFT JOIN catogries c ON h.catogry_id = c.id";
@@ -97,6 +96,16 @@ $result = mysqli_query($conn, $sql);
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>
 

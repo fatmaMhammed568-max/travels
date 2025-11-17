@@ -3,32 +3,40 @@ include_once('../../env.php');
 include_once('../../layouts/functions.php');
 include_once('../../layouts/navbar.php');
 
-$Contact = [];
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-if ($id) {
-    $res = mysqli_query($conn, "SELECT * FROM contacts ");
-    if ($res && mysqli_num_rows($res) > 0) {
-        $user = mysqli_fetch_assoc($res);
-    }
+if ($id <= 0) {
+    die("<div class='alert alert-danger text-center mt-3'>Invalid Contact ID.</div>");
 }
+
+$res = mysqli_query($conn, "SELECT * FROM contacts WHERE id=$id");
+if (!$res || mysqli_num_rows($res) == 0) {
+    die("<div class='alert alert-danger text-center mt-3'>Contact not found.</div>");
+}
+
+$user = mysqli_fetch_assoc($res);
 
 if (isset($_POST['submit_user'])) {
-    $name = filterInputs($_POST['name']);
-   $email = (int) filterInputs($_POST['email'] ?? 0);
 
+    $name = filterInputs($_POST['name']);
+    $email = filterInputs($_POST['email']);
     $message = filterInputs($_POST['message']);
-  
 
     $sql = "UPDATE contacts 
-            SET name='$name', email='$email', message='$message' "
-            ;
+            SET name='$name', email='$email', message='$message'
+            WHERE id=$id";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<div class='alert alert-success text-center'> User updated successfully.</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Contact updated successfully.</div>";
+        
+        $user['name'] = $name;
+        $user['email'] = $email;
+        $user['message'] = $message;
     } else {
-        echo "<div class='alert alert-danger text-center'> Failed to update Contacts.<br>" . mysqli_error($conn) . "</div>";
+        echo "<div class='alert alert-danger text-center'> Error updating Contact: " . mysqli_error($conn) . "</div>";
     }
 }
+
 mysqli_close($conn);
 ?>
 
@@ -40,31 +48,39 @@ mysqli_close($conn);
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="container mt-5">
     <h2 class="text-center text-primary mb-4">Edit Contact</h2>
 
     <form method="POST" class="shadow p-4 rounded bg-white">
+
         <div class="mb-3">
             <label class="form-label fw-bold">Name:</label>
-            <input type="text" name="name" class="form-control" placeholder='Enter name'
-                   value="<?= htmlspecialchars($user['name'] ?? '') ?>" required>
+            <input type="text" name="name" class="form-control"
+                value="<?= htmlspecialchars($user['name']) ?>" required>
         </div>
 
         <div class="mb-3">
             <label class="form-label fw-bold">Email:</label>
-            <input type="text" name="email" class="form-control" placeholder='Enter email'
-                   value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+            <input type="email" name="email" class="form-control"
+                value="<?= htmlspecialchars($user['email']) ?>" required>
         </div>
 
         <div class="mb-3">
             <label class="form-label fw-bold">Message:</label>
-            <textarea class='form-control' name='message' placeholder='Enter message' value="<?= htmlspecialchars($user['message'] ?? '') ?>" 
-            required></textarea>
-                   
+            <textarea class="form-control" name="message" required><?= htmlspecialchars($user['message']) ?></textarea>
         </div>
 
         <button class="btn btn-info w-100 fw-bold" name="submit_user">Update Contact</button>
     </form>
 </div>
+
+<script>
+setTimeout(function(){
+  const msg = document.getElementById('successMsg');
+  if (msg) msg.style.opacity = "0";
+}, 3000);
+</script>
+
 </body>
 </html>

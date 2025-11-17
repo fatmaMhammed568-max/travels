@@ -45,7 +45,7 @@ if (isset($_POST['register_user'])) {
                 header("Location: login.php?registered=1");
                 exit;
             } else {
-                $msg = "<div class='alert alert-danger text-center'>Registration failed! Please try again.</div>";
+                $msg = "<div class='alert alert-success text-center mt-3' id='successMsg'>Registration failed! Please try again.</div>";
             }
         }
     }
@@ -101,6 +101,15 @@ if (isset($_POST['register_user'])) {
       <a href="./login.php" class="text-decoration-none text-primary fw-semibold">Login</a>
     </p>
   </div>
-
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

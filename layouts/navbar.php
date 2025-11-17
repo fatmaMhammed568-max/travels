@@ -1,6 +1,7 @@
 
 <?php
 ?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-gradient shadow-sm">
   <div class="container">
     <a class="navbar-brand fw-bold fs-4 " href="/travels/">
@@ -51,6 +52,14 @@
             <li><a class="dropdown-item" href="/travels/dashboard/users/create.php"> Create Users</a></li>
             <li><a class="dropdown-item" href="/travels/dashboard/users/edit.php"> Edit Users</a></li>
             <li><a class="dropdown-item" href="/travels/dashboard/users/show.php"> Show Users</a></li>
+          </ul>
+        </li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"> Post</a>
+          <ul class="dropdown-menu shadow">
+            <li><a class="dropdown-item" href="/travels/dashboard/Post/create.php"> Create Post</a></li>
+            <li><a class="dropdown-item" href="/travels/dashboard/Post/edit.php"> Edit Post</a></li>
+            <li><a class="dropdown-item" href="/travels/dashboard/Post/show.php"> Show Post</a></li>
           </ul>
         </li>
 

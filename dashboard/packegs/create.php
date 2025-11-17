@@ -22,7 +22,7 @@ if (isset($_POST['submit_packge'])) {
         $price_night = (float) filterInputs($_POST['price_night']);
         $hotel_id = (int) filterInputs($_POST['hotel_id']);
 
-        // رفع الصورة
+        
         $imgurl = null;
         if (!empty($_FILES['imgurl']['name'])) {
             $target_dir = "../../dashboard/uploads/";
@@ -36,9 +36,10 @@ if (isset($_POST['submit_packge'])) {
                 VALUES ('$name_packge', '$information_room', '$periods', '$accommodation_type', '$Transportations', '$price_night', '$hotel_id', '$imgurl')";
 
         if (mysqli_query($conn, $sql)) {
-            echo "<div class='alert alert-success text-center mt-3'> Package added successfully.</div>";
+              echo "<div class='alert alert-success text-center mt-3' id='successMsg'> Package added successfully.</div>";
+
         } else {
-            echo "<div class='alert alert-danger text-center mt-3'> Database insert error: " . mysqli_error($conn) . "</div>";
+            echo "<div class='alert alert-success text-center mt-3' id='successMsg'> Database insert error: " . mysqli_error($conn) . "</div>";
         }
     } else {
         echo "<div class='alert alert-warning text-center mt-3'> Please fill all fields.</div>";
@@ -114,5 +115,15 @@ if (isset($_POST['submit_packge'])) {
   </div>
 </div>
 
+  <script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

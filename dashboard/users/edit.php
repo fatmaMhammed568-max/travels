@@ -32,9 +32,9 @@ if (isset($_POST['submit_user'])) {
             WHERE id=$id";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<div class='alert alert-success text-center'>User updated successfully.</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>User updated successfully.</div>";
     } else {
-        echo "<div class='alert alert-danger text-center'>Failed to update user.<br>" . mysqli_error($conn) . "</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Failed to update user.<br>" . mysqli_error($conn) . "</div>";
     }
 }
 mysqli_close($conn);
@@ -99,5 +99,16 @@ mysqli_close($conn);
         <button class="btn btn-info w-100 fw-bold" name="submit_user">Update User</button>
     </form>
 </div>
+
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

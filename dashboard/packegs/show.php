@@ -3,27 +3,26 @@ include_once('../../env.php');
 include_once('../../layouts/functions.php');
 include_once('../../layouts/navbar.php');
 
-// 🗑️ حذف الباكدج
+
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
 
-    // جلب الصورة قبل الحذف عشان نمسحها من السيرفر
+    
     $getImg = mysqli_query($conn, "SELECT imgurl FROM packegs WHERE id = $id");
     $imgData = mysqli_fetch_assoc($getImg);
 
     $delete = "DELETE FROM packegs WHERE id = $id";
     if (mysqli_query($conn, $delete)) {
-        // حذف الصورة من المجلد
+        
         if (!empty($imgData['imgurl']) && file_exists("../../dashboard/uploads/" . $imgData['imgurl'])) {
             unlink("../../dashboard/uploads/" . $imgData['imgurl']);
         }
-        echo "<div class='alert alert-success text-center'>Package deleted successfully</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Package deleted successfully</div>";
     } else {
-        echo "<div class='alert alert-danger text-center'>Failed to delete package</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Failed to delete package</div>";
     }
 }
 
-// 📦 جلب البيانات مع اسم الفندق
 $sql = "SELECT p.*, h.title AS hotel_name 
         FROM packegs p 
         LEFT JOIN hotel h ON p.hotel_id = h.id
@@ -68,7 +67,7 @@ $result = mysqli_query($conn, $sql);
               <tr>
                   <td><?= $row['id'] ?></td>
 
-                  <!-- عرض الصورة -->
+                
                   <td>
                     <?php if (!empty($row['imgurl']) && file_exists("../../dashboard/uploads/" . $row['imgurl'])): ?>
                         <img src="../../dashboard/uploads/<?= htmlspecialchars($row['imgurl']) ?>" alt="Package Image" width="100" height="70" class="rounded shadow-sm">
@@ -101,6 +100,15 @@ $result = mysqli_query($conn, $sql);
       </tbody>
   </table>
 </div>
-
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

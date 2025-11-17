@@ -20,9 +20,9 @@ if (isset($_POST['submit_user'])) {
         VALUES ('$name', '$email', '$hashedPassword', '$natid', '$phone', '$role')";
 
         if (mysqli_query($conn, $sql)) {
-            echo "<div class='alert alert-success text-center mt-3'>User added successfully!</div>";
+            echo "<div class='alert alert-success text-center mt-3' id='successMsg'>User added successfully!</div>";
         } else {
-            echo "<div class='alert alert-danger text-center mt-3'>Database error: " . mysqli_error($conn) . "</div>";
+            echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Database error: " . mysqli_error($conn) . "</div>";
         }
     }
 }
@@ -43,37 +43,37 @@ mysqli_close($conn);
         <div class="card-body">
             <form method="POST">
 
-                <!-- Name -->
+                
                 <div class="mb-3">
                     <label for="name" class="form-label fw-bold">Full Name</label>
                     <input type="text" id="name" name="name" class="form-control" placeholder="Enter full name" required>
                 </div>
 
-                <!-- Email -->
+                
                 <div class="mb-3">
                     <label for="email" class="form-label fw-bold">Email Address</label>
                     <input type="email" id="email" name="email" class="form-control" placeholder="Enter email address" required>
                 </div>
 
-                <!-- Password -->
+               
                 <div class="mb-3">
                     <label for="password" class="form-label fw-bold">Password</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
                 </div>
 
-                <!-- National ID -->
+                
                 <div class="mb-3">
                     <label for="natid" class="form-label fw-bold">National </label>
                     <input type="text" id="natid" name="natid" class="form-control" placeholder="Enter national ID" required>
                 </div>
 
-                <!-- Phone -->
+               
                 <div class="mb-3">
                     <label for="phone" class="form-label fw-bold">Phone Number</label>
                     <input type="text" id="phone" name="phone" class="form-control" placeholder="Enter phone number" required>
                 </div>
 
-                <!-- Role -->
+               
                 <div class="mb-3">
                     <label for="role" class="form-label fw-bold">User Role</label>
                     <select id="role" name="role" class="form-select" required>
@@ -91,5 +91,16 @@ mysqli_close($conn);
     </div>
 </div>
 
+
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

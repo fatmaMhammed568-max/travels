@@ -54,30 +54,41 @@ if (isset($_POST['submit_hotel'])) {
             }
         }
 
-        if (empty($errors)) {
-    
-            $sql = "INSERT INTO `hotel` 
-                (`title`, `imgurl`, `rate`, `infomation_packeg`, `information_hotel`, `prisenightday`, `price_type`, `catogry_id`)
-                VALUES (
-                    '$title',
-                    '$imgurl',
-                    '$rate',
-                    '$infomation_packeg',
-                    '$information_hotel',
-                    '$prisenightday',
-                    '$price_type',
-                    '$catogry_id'
-                )";
+       if (empty($errors)) {
 
-            if (mysqli_query($conn, $sql)) {
-                header('Location: show.php?added=1');
-                exit;
+    $sql = "INSERT INTO `hotel` 
+        (`title`, `imgurl`, `rate`, `infomation_packeg`, `information_hotel`, `prisenightday`, `price_type`, `catogry_id`)
+        VALUES (
+            '$title',
+            '$imgurl',
+            '$rate',
+            '$infomation_packeg',
+            '$information_hotel',
+            '$prisenightday',
+            '$price_type',
+            '$catogry_id'
+        )";
+
+    if (mysqli_query($conn, $sql)) {
+        $success = true;
+    } else {
+        $errors[] = "Database Error: " . mysqli_error($conn);
+    }
+
+                    echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Data saved successfully.</div>";
+
+                } else {
+                    echo "<div class='alert alert-danger text-center'> Database insert error: " . mysqli_error($conn) . "</div>";
+                }
+
             } else {
-                $errors[] = "Database error: " . mysqli_error($conn);
+                echo "<div class='alert alert-warning text-center'> Failed to upload image.</div>";
             }
         }
-    }
-}
+    
+
+    
+
 
 $cats = [];
 $resCats = $conn->query("SELECT id, title FROM catogries");
@@ -156,5 +167,15 @@ mysqli_close($conn);
     </form>
 </div>
 
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

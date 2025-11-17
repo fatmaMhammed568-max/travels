@@ -18,7 +18,7 @@ if (!$data) {
     exit;
 }
 
-// جلب كل الفنادق لعرضها في select
+
 $hotels = mysqli_query($conn, "SELECT id, title FROM hotel");
 
 if (isset($_POST['update_packge'])) {
@@ -30,8 +30,8 @@ if (isset($_POST['update_packge'])) {
     $price_night = (float) filterInputs($_POST['price_night']);
     $hotel_id = (int) $_POST['hotel_id'];
 
-    // معالجة الصورة
-    $imgurl = $data['imgurl']; // الصورة القديمة الافتراضية
+    
+    $imgurl = $data['imgurl']; 
     if (!empty($_FILES['imgurl']['name'])) {
         $targetDir = "../../dashboard/uploads/";
         $fileName = time() . '_' . basename($_FILES['imgurl']['name']);
@@ -42,7 +42,7 @@ if (isset($_POST['update_packge'])) {
 
         if (in_array($imageFileType, $allowedTypes)) {
             if (move_uploaded_file($_FILES['imgurl']['tmp_name'], $targetFile)) {
-                // حذف الصورة القديمة إن وجدت
+        
                 if (!empty($data['imgurl']) && file_exists($targetDir . $data['imgurl'])) {
                     unlink($targetDir . $data['imgurl']);
                 }
@@ -53,7 +53,7 @@ if (isset($_POST['update_packge'])) {
         }
     }
 
-    // تحديث البيانات
+    
     $sql = "UPDATE packegs SET 
             name_packge='$name_packge',
             information_room='$information_room',
@@ -66,14 +66,14 @@ if (isset($_POST['update_packge'])) {
             WHERE id=$id";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<div class='alert alert-success text-center mt-3'> Package updated successfully.</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'> Package updated successfully.</div>";
         echo "<script>
                 setTimeout(function(){
                     window.location.href = 'show.php';
                 }, 1500);
               </script>";
     } else {
-        echo "<div class='alert alert-danger text-center mt-3'> Update failed. Please try again.</div>";
+        echo "<div class='alert alert-success text-center mt-3' id='successMsg'> Update failed. Please try again.</div>";
     }
 }
 ?>
@@ -143,5 +143,16 @@ if (isset($_POST['update_packge'])) {
       <input type="submit" name="update_packge" value="Update Package" class="btn btn-info w-100 fw-bold">
   </form>
 </div>
+
+<script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
 </body>
 </html>

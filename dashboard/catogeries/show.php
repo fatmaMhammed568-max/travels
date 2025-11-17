@@ -10,7 +10,8 @@ $result = mysqli_query($conn, $sql);
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     mysqli_query($conn, "DELETE FROM `catogries` WHERE id=$id");
-    echo "<div class='alert alert-success text-center'> Category deleted successfully</div>";
+    echo "<div class='alert alert-success text-center mt-3' id='successMsg'>Category deleted successfully</div>";
+
 }
 ?>
 
@@ -56,5 +57,16 @@ if (isset($_GET['delete'])) {
             </div>
         </div>
     </div>
+    <script>
+  // الرسالة تختفي بعد 3 ثواني
+  setTimeout(function() {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.transition = "0.5s";
+      msg.style.opacity = "0";
+    }
+  }, 3000);
+</script>
+
 </body>
 </html>
