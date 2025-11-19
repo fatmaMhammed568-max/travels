@@ -1,7 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'Admin') {
+    header("Location: /travels/dashboard/users/login.php");
+    exit;
+}
 include_once('../../env.php');
 include_once('../../layouts/functions.php');
-include_once('../../layouts/navbar.php');
+include_once('../index.php');
 
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];

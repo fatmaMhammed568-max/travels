@@ -1,17 +1,16 @@
 <?php
-include_once('../../env.php');
-include_once('../../layouts/functions.php');
 session_start();
+include_once('../../env.php'); 
+include_once('../../layouts/functions.php');
 
 $msg = '';
-
 
 if (isset($_GET['registered']) && $_GET['registered'] == 1) {
     $msg = "<div class='alert alert-success text-center'>Account created successfully! Please login.</div>";
 }
 
 if (isset($_POST['login_user'])) { 
-    $email = mysqli_real_escape_string($conn, filterInputs($_POST['email']));
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
     if (empty($email) || empty($password)) {
@@ -20,19 +19,25 @@ if (isset($_POST['login_user'])) {
         $sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
         $result = mysqli_query($conn, $sql);
 
-        if (mysqli_num_rows($result) == 1) {
+        if ($result && mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
-
-       
-            if (password_verify($password, $user['password']) || $password == $user['password']) {
+          
+            if (password_verify($password, $user['password'])) {
                 $_SESSION['user'] = $user;
-                header("Location: ../../front/index.php"); 
-                exit;
+
+              
+                if ($user['role'] === 'Admin') {
+                    header("Location: /travels/dashboard/index.php");
+                    exit;
+                } else {
+                    header("Location: /travels/front/index.php");
+                    exit;
+                }
             } else {
-                $msg = "<div class='alert alert-success text-center mt-3' id='successMsg'>Incorrect password</div>";
+                $msg = "<div class='alert alert-danger text-center'>Incorrect password</div>";
             }
         } else {
-            $msg = "<div class='alert alert-success text-center mt-3' id='successMsg'>User not found</div>";
+            $msg = "<div class='alert alert-danger text-center'>User not found</div>";
         }
     }
 }
@@ -60,25 +65,13 @@ if (isset($_POST['login_user'])) {
       </div>
       <button type="submit" name="login_user" class="btn btn-primary w-100">Login</button>
       <div class="text-center mt-3">
-        <p>ليس لديك حساب؟ 
+        <p>Don't have an account? 
           <a href="register.php" class="text-primary fw-bold" style="text-decoration:none;">
-            أنشئ حسابًا الآن
+            Create one
           </a>
         </p>
       </div>
     </form>
   </div>
-
-
-  <script>
-  // الرسالة تختفي بعد 3 ثواني
-  setTimeout(function() {
-    const msg = document.getElementById('successMsg');
-    if (msg) {
-      msg.style.transition = "0.5s";
-      msg.style.opacity = "0";
-    }
-  }, 3000);
-</script>
 </body>
 </html>

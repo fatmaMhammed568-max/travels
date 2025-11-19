@@ -46,3 +46,9 @@ if (!function_exists('countRows')) {
         return 0;
     }
 }
+function requireLogin($url) {
+    if(!isset($_SESSION['user'])) {
+        header("Location: /travels/dashboard/users/login.php?redirect=$url");
+        exit;
+    }
+}

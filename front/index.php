@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'Admin') {
+    header("Location:/travels/dashboard/users/login.php");
+    exit;
+}
 include_once('../env.php');
 include_once('../layouts/functions.php');
 $packages_res = mysqli_query($conn, "SELECT * FROM packegs ORDER BY id DESC LIMIT 6");
@@ -114,7 +120,7 @@ $post_res = mysqli_query($conn, "SELECT * FROM posts ORDER BY published_at DESC 
         <div class="card-body">
           <h5 class="card-title fw-bold"><?= htmlspecialchars($post['title']) ?></h5>
           <p class="text-muted small"><?= substr(strip_tags($post['content']), 0, 120)."..." ?></p>
-          <a href="single-post.php?id=<?= $post['id'] ?>" class="btn btn-sm btn-primary">Read More</a>
+          <a href="about.php?id=<?= $post['id'] ?>" class="btn btn-sm btn-primary">Read More</a>
         </div>
       </div>
     </div>

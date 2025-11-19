@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'Admin') {
+    header("Location:/travels/dashboard/users/login.php");
+    exit;
+}
 include_once('../env.php');
 include_once('../layouts/functions.php');
 

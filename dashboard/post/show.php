@@ -1,8 +1,13 @@
 
 <?php
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'Admin') {
+    header("Location: /travels/dashboard/users/login.php");
+    exit;
+}
 include_once('../../env.php');
 include_once('../../layouts/functions.php');
-include_once('../../layouts/navbar.php');
+include_once('../index.php');
 
 $res = mysqli_query($conn, "SELECT * FROM posts ORDER BY id DESC");
 ?>
