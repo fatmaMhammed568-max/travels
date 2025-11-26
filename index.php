@@ -5,6 +5,7 @@ include_once('layouts/functions.php');
 
 $packages_res = mysqli_query($conn, "SELECT * FROM packegs ORDER BY id DESC LIMIT 6");
 $post_res = mysqli_query($conn, "SELECT * FROM posts ORDER BY published_at DESC LIMIT 6");
+
 ?>
 
 

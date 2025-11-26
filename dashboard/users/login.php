@@ -10,29 +10,32 @@ if (isset($_GET['registered']) && $_GET['registered'] == 1) {
 }
 
 if (isset($_POST['login_user'])) { 
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = $_POST['password'];
+      $password = $_POST['password'];
+      $email = mysqli_real_escape_string($conn, $_POST['email']);
+  if (empty($email) || empty($password)) {
+    $msg = "<div class='alert alert-warning text-center'>Please fill all fields</div>";
+  } else {
+    $sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
+   
+    
+    if ($result && mysqli_num_rows($result) == 1) {
+      $user = mysqli_fetch_assoc($result);
+      
+      if (password_verify($password, $user['password'])) {
+        $_SESSION['user'] = $user;
+      
 
-    if (empty($email) || empty($password)) {
-        $msg = "<div class='alert alert-warning text-center'>Please fill all fields</div>";
-    } else {
-        $sql = "SELECT * FROM users WHERE email='$email' LIMIT 1";
-        $result = mysqli_query($conn, $sql);
+             if ($user['role'] === 'Admin') {
+               // die("die");
+   header("Location: /travels/dashboard/index.php");
+  exit;
+} else {
+  header("Location: /travels/front/index.php");
+   //header("Location: /travels/index.php");
+    exit;
+}
 
-        if ($result && mysqli_num_rows($result) == 1) {
-            $user = mysqli_fetch_assoc($result);
-          
-            if (password_verify($password, $user['password'])) {
-                $_SESSION['user'] = $user;
-
-              
-                if ($user['role'] === 'Admin') {
-                    header("Location: /travels/dashboard/index.php");
-                    exit;
-                } else {
-                    header("Location: /travels/front/index.php");
-                    exit;
-                }
             } else {
                 $msg = "<div class='alert alert-danger text-center'>Incorrect password</div>";
             }
@@ -41,6 +44,7 @@ if (isset($_POST['login_user'])) {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>

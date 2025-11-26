@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'Admin') {
-    header("Location: /travels/dashboard/users/login.php");
+if (!isset($_SESSION['user']) ) {
+    header("Location:/travels/dashboard/users/login.php");
     exit;
 }
 include_once('../../env.php');
@@ -60,13 +60,13 @@ mysqli_close($conn);
 
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
-        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="packages.php">Packages</a></li>
-        <li class="nav-item"><a class="nav-link" href="hotels.php">Hotels</a></li>
-        <li class="nav-item"><a class="nav-link" href="destinations.php">Destinations</a></li>
-         <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.php">About </a></li>
-        <li class="nav-item"><a class="nav-link" href="faq.php">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/front/index.php">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/front/packages.php">Packages</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/front/hotels.php">Hotels</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/front/destinations.php">Destinations</a></li>
+         <li class="nav-item"><a class="nav-link" href="/travels/front/services.php">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/front/about.php">About </a></li>
+        <li class="nav-item"><a class="nav-link" href="/travels/front/faq.php">FAQ</a></li>
         <li class="nav-item"><a class="nav-link" href="/travels/dashboard/Contacts/create.php">Contact</a></li>
       </ul>
       <a href="/travels/dashboard/users/logout.php" class="btn btn-primary rounded-pill px-4">Logout</a>
